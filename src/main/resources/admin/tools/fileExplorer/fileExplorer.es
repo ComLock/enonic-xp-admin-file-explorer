@@ -35,7 +35,7 @@ const CORE_CONFIG_FILES = [
 export function get() {
     //const files = filesInDirectory(XP_HOME); //log.info(toStr({files}));
 
-    let listItemsHtml = '';
+    let tableRowsHtml = '';
 
     [
         '/etc/hosts',
@@ -44,10 +44,10 @@ export function get() {
     ].forEach((path) => {
         const file = readFile(path);
         if (file.exists) {
-            listItemsHtml += `<li>${path}<pre>${getContent(file, true).split('\n')
+            tableRowsHtml += `<tr><th>${path}</th><td><pre>${getContent(file, true).split('\n')
                 .filter(l => !l.startsWith('#'))
                 .filter(l => !l.match(/^\s*$/))
-                .join('\n')}</pre></li>`;
+                .join('\n')}</pre></td></tr>`;
         }
     });
 
@@ -65,7 +65,7 @@ export function get() {
                 .join('\n')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
-            listItemsHtml += `<li>${fileAbsolutePathName}: <pre>${stripped}</pre></li>`;
+            tableRowsHtml += `<tr><th>${fileAbsolutePathName}</th><td><pre>${stripped}</pre></td></tr>`;
         }
     });
 
@@ -74,7 +74,14 @@ export function get() {
     <head></head>
     <body>
         <h1>File Explorer</h1>
-        <ul>${listItemsHtml}</ul>
+        <table border="1" cellpadding="0" cellspacing="0">
+            <tr>
+                <th>Path</th>
+                <th>Content</th>
+            </tr>
+            ${tableRowsHtml}
+        </table>
+        <ul></ul>
     </body>
 </html>`,
         contentType: 'text/html; charset=utf-8'
