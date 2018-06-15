@@ -37,34 +37,36 @@ export function get() {
 
     let listItemsHtml = '';
 
-    listItemsHtml += `<li>/etc/hosts<pre>${getContent(readFile('/etc/hosts'), true).split('\n')
-        .filter(l => !l.startsWith('#'))
-        .filter(l => !l.match(/^\s*$/))
-        .join('\n')}</pre></li>`;
-
-    const javaSecurity = getContent(readFile(`${JAVA_HOME}/lib/security/java.security`), true)
-        .split('\n')
-        .filter(l => !l.startsWith('#'))
-        .filter(l => !l.match(/^\s*$/))
-        //.filter(l => !l.match(/^\s\/\/.*\$/))
-        .join('\n');
-    listItemsHtml += `<li>${JAVA_HOME}/lib/security/java.security<pre>${javaSecurity}</pre></li>`;
+    [
+        '/etc/hosts',
+        'c:\\Windows\\System32\\Drivers\\etc\\hosts',
+        `${JAVA_HOME}/lib/security/java.security`
+    ].forEach((path) => {
+        const file = readFile(path);
+        if (file.exists) {
+            listItemsHtml += `<li>${path}<pre>${getContent(file, true).split('\n')
+                .filter(l => !l.startsWith('#'))
+                .filter(l => !l.match(/^\s*$/))
+                .join('\n')}</pre></li>`;
+        }
+    });
 
     CORE_CONFIG_FILES.forEach((filename) => {
         const fileAbsolutePathName = `${DIR_CONFIG}/${filename}`; //log.info(toStr({fileAbsolutePathName}));
 
         const file = readFile(fileAbsolutePathName); //log.info(toStr({file}));
-
-        const content = getContent(file, true); //log.info(toStr({content}));
-        //files[filename] = content;
-        const stripped = content
-            .split('\n')
-            .filter(l => !l.startsWith('#'))
-            .filter(l => !l.match(/^\s*$/))
-            .join('\n')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-        listItemsHtml += `<li>${fileAbsolutePathName}: <pre>${stripped}</pre></li>`;
+        if (file.exists) {
+            const content = getContent(file, true); //log.info(toStr({content}));
+            //files[filename] = content;
+            const stripped = content
+                .split('\n')
+                .filter(l => !l.startsWith('#'))
+                .filter(l => !l.match(/^\s*$/))
+                .join('\n')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            listItemsHtml += `<li>${fileAbsolutePathName}: <pre>${stripped}</pre></li>`;
+        }
     });
 
     return {
