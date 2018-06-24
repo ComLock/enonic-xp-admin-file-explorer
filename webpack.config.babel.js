@@ -37,58 +37,58 @@ const ALL_JS_ASSETS_FILES = glob.sync(ALL_JS_ASSETS_GLOB);
 //console.log(`ALL_JS_ASSETS_FILES:${toStr(ALL_JS_ASSETS_FILES)}`);
 
 const SERVER_JS_FILES = glob.sync(`${SRC_DIR}/**/${JS_EXTENSION_GLOB_BRACE}`, {
-    ignore: ALL_JS_ASSETS_FILES
+	ignore: ALL_JS_ASSETS_FILES
 });
 //console.log(`SERVER_JS_FILES:${toStr(SERVER_JS_FILES)}`);
 
 const SERVER_JS_ENTRY = dict(SERVER_JS_FILES.map(k => [
-    k.replace(`${SRC_DIR}/`, '').replace(/\.[^.]*$/, ''), // name
-    `.${k.replace(`${SRC_DIR}`, '')}` // source relative to context
+	k.replace(`${SRC_DIR}/`, '').replace(/\.[^.]*$/, ''), // name
+	`.${k.replace(`${SRC_DIR}`, '')}` // source relative to context
 ]));
 //console.log(`SERVER_JS_ENTRY:${toStr(SERVER_JS_ENTRY)}`);
 
 const SERVER_JS_CONFIG = {
-    context,
-    entry: SERVER_JS_ENTRY,
-    externals: [
-        /\/lib\/(enonic|openxp|xp)/
-    ],
-    devtool: false, // Don't waste time generating sourceMaps
-    mode: 'production',
-    module: {
-        rules: [{
-            test: /\.(es6?|js)$/, // Will need js for node module depenencies
-            use: [{
-                loader: 'babel-loader',
-                options: {
-                    babelrc: false, // The .babelrc file should only be used to transpile config files.
-                    comments: false,
-                    compact: false,
-                    minified: false,
-                    plugins: [
-                        'array-includes',
-                        'optimize-starts-with',
-                        'transform-object-assign',
-                        'transform-object-rest-spread'
-                    ],
-                    presets: ['es2015']
-                } // options
-            }] // use
-        }] // rules
-    }, // module
-    output: {
-        path: outputPath,
-        filename: '[name].js',
-        libraryTarget: 'commonjs'
-    }, // output
-    resolve: {
-        alias: {
-            '/lib': path.resolve(__dirname, SRC_DIR, 'lib'),
-            '/site': path.resolve(__dirname, SRC_DIR, 'site'),
-            '/services': path.resolve(__dirname, SRC_DIR, 'services')
-        },
-        extensions
-    } // resolve
+	context,
+	entry: SERVER_JS_ENTRY,
+	externals: [
+		/\/lib\/(enonic|openxp|router|xp)/
+	],
+	devtool: false, // Don't waste time generating sourceMaps
+	mode: 'production',
+	module: {
+		rules: [{
+			test: /\.(es6?|js)$/, // Will need js for node module depenencies
+			use: [{
+				loader: 'babel-loader',
+				options: {
+					babelrc: false, // The .babelrc file should only be used to transpile config files.
+					comments: false,
+					compact: false,
+					minified: false,
+					plugins: [
+						'array-includes',
+						'optimize-starts-with',
+						'transform-object-assign',
+						'transform-object-rest-spread'
+					],
+					presets: ['es2015']
+				} // options
+			}] // use
+		}] // rules
+	}, // module
+	output: {
+		path: outputPath,
+		filename: '[name].js',
+		libraryTarget: 'commonjs'
+	}, // output
+	resolve: {
+		alias: {
+			'/lib': path.resolve(__dirname, SRC_DIR, 'lib'),
+			'/site': path.resolve(__dirname, SRC_DIR, 'site'),
+			'/services': path.resolve(__dirname, SRC_DIR, 'services')
+		},
+		extensions
+	} // resolve
 };
 //console.log(`SERVER_JS_CONFIG:${JSON.stringify(SERVER_JS_CONFIG, null, 4)}`);
 
@@ -97,7 +97,7 @@ const SERVER_JS_CONFIG = {
 // Exports
 //──────────────────────────────────────────────────────────────────────────────
 const WEBPACK_CONFIG = [
-    SERVER_JS_CONFIG
+	SERVER_JS_CONFIG
 ];
 
 //console.log(`WEBPACK_CONFIG:${JSON.stringify(WEBPACK_CONFIG, null, 4)}`);
