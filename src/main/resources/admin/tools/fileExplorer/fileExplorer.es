@@ -3,6 +3,7 @@ import {
 	getContent,
 	readFile
 } from '/lib/openxp/file-system';
+import showPath from './showPath.es';
 
 
 //──────────────────────────────────────────────────────────────────────────────
@@ -37,7 +38,12 @@ const CORE_CONFIG_FILES = [
 //──────────────────────────────────────────────────────────────────────────────
 // Public functions
 //──────────────────────────────────────────────────────────────────────────────
-export function get() {
+export function get(req) {
+	//log.info(toStr({req}));
+	if (req.params.path) {
+		return showPath(req.params.path)
+	}
+
 	let tableRowsHtml = '';
 
 	[
