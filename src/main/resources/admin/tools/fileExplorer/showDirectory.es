@@ -1,7 +1,7 @@
 //──────────────────────────────────────────────────────────────────────────────
 // Enonic Libs (in jar, resolved runtime)
 //──────────────────────────────────────────────────────────────────────────────
-import {toStr} from '/lib/enonic/util';
+//import {toStr} from '/lib/enonic/util';
 import {
 	dirsInDirectory,
 	filesInDirectory
@@ -18,7 +18,7 @@ import {clone, access, li, a} from 'render-js/src/class.es';
 //──────────────────────────────────────────────────────────────────────────────
 // Local libs (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import page, {OL, DOWNLOAD_SVG} from './page.es';
+import page, {OL, DOWNLOAD_SVG, HOME_SVG} from './page.es';
 import parentPath from './parentPath.es';
 import respond from './respond.es';
 import sortByName from './sortByName.es';
@@ -28,7 +28,7 @@ import sortByName from './sortByName.es';
 // Default export
 //──────────────────────────────────────────────────────────────────────────────
 export default function showDirectory(dir) {
-	log.info(toStr({dir}));
+	//log.info(toStr({dir}));
 	const dirs = dirsInDirectory(dir.absolutePath)
 		.filter(e => !e.hidden)
 		.filter(e => !e.name.startsWith('.'))
@@ -41,6 +41,7 @@ export default function showDirectory(dir) {
 	const list = clone(OL);
 	const listAccess = access(list);
 
+	listAccess.addContent(li(a({href: '?'}, HOME_SVG)));
 	if (dir.name) { // not root
 		listAccess.addContent(li(a({href: `?path=${parentPath(dir)}`}, '..')));
 	}
@@ -54,7 +55,7 @@ export default function showDirectory(dir) {
 				a({href: `${downloadServiceUrl}?path=${file.absolutePath}`}, DOWNLOAD_SVG)
 			]))));
 	const dom = page({
-		title: dir.absolutePath,
+		title: `${dir.absolutePath} : File Explorer`,
 		content: list
 	});
 	return respond(dom);

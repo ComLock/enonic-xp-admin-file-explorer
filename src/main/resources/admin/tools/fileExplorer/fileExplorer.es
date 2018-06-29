@@ -3,6 +3,17 @@ import {
 	getContent,
 	readFile
 } from '/lib/openxp/file-system';
+
+//──────────────────────────────────────────────────────────────────────────────
+// Node modules (resolved and webpacked buildtime)
+//──────────────────────────────────────────────────────────────────────────────
+import {clone, addContent, h1, li, a, table, tr, th, td, pre} from 'render-js/src/class.es';
+
+//──────────────────────────────────────────────────────────────────────────────
+// Local libs (resolved and webpacked buildtime)
+//──────────────────────────────────────────────────────────────────────────────
+import page, {OL} from './page.es';
+import respond from './respond.es';
 import showPath from './showPath.es';
 
 
@@ -41,11 +52,22 @@ const CORE_CONFIG_FILES = [
 export function get(req) {
 	//log.info(toStr({req}));
 	if (req.params.path) {
-		return showPath(req.params.path)
+		return showPath(req.params.path);
 	}
 
-	let tableRowsHtml = '';
+	const list = clone(OL);
+	['/', 'C:/', 'D:/'].forEach((path) => {
+		const dir = readFile(path);
+		if (dir.exists) {
+			addContent(list, li(a({href: `?path=${dir.absolutePath}`}, path)));
+		}
+	}); // forEach
 
+	const aTable = table({
+		border: '1',
+		cellpadding: '0',
+		cellspacing: '0'
+	});
 	[
 		'/etc/hosts',
 		'c:\\Windows\\System32\\Drivers\\etc\\hosts',
@@ -53,10 +75,14 @@ export function get(req) {
 	].forEach((path) => {
 		const file = readFile(path);
 		if (file.exists) {
-			tableRowsHtml += `<tr><th>${path}</th><td><pre>${getContent(file, true).split('\n')
-				.filter(l => !l.startsWith('#'))
-				.filter(l => !l.match(/^\s*$/))
-				.join('\n')}</pre></td></tr>`;
+			//log.info(toStr({file}));
+			addContent(aTable, tr([
+				th(path),
+				td(pre(getContent(file, true).split('\n')
+					.filter(l => !l.startsWith('#'))
+					.filter(l => !l.match(/^\s*$/))
+					.join('\n')))
+			]));
 		}
 	});
 
@@ -74,25 +100,20 @@ export function get(req) {
 				.join('\n')
 				.replace(/</g, '&lt;')
 				.replace(/>/g, '&gt;');
-			tableRowsHtml += `<tr><th>${fileAbsolutePathName}</th><td><pre>${stripped}</pre></td></tr>`;
+			addContent(aTable, tr([
+				th(fileAbsolutePathName),
+				td(pre(stripped))
+			]));
 		}
 	});
 
-	return {
-		body: `<html>
-	<head></head>
-	<body>
-		<h1>File Explorer</h1>
-		<table border="1" cellpadding="0" cellspacing="0">
-			<tr>
-				<th>Path</th>
-				<th>Content</th>
-			</tr>
-			${tableRowsHtml}
-		</table>
-		<ul></ul>
-	</body>
-</html>`,
-		contentType: 'text/html; charset=utf-8'
-	};
+	const dom = page({
+		title: 'File Explorer',
+		content: [
+			h1('File Explorer'),
+			list,
+			aTable
+		]
+	});
+	return respond(dom);
 }

@@ -4,22 +4,30 @@ import {getContent} from '/lib/openxp/file-system';
 //──────────────────────────────────────────────────────────────────────────────
 // Node modules (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import {a, pre} from 'render-js/src/class.es';
+import {ol, li, a, pre} from 'render-js/src/class.es';
 
 
 //──────────────────────────────────────────────────────────────────────────────
 // Local libs (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import page from './page.es';
+import page, {HOME_SVG} from './page.es';
 import parentPath from './parentPath.es';
 import respond from './respond.es';
 
 
 export default function showFile(file) {
 	const dom = page({
-		title: file.absolutePath,
+		title: `${file.absolutePath} : File Explorer`,
 		content: [
-			a({href: `?path=${parentPath(file)}`}, '..'),
+			ol({
+				_s: {
+					listStyleType: 'none',
+					padding: '0'
+				}
+			}, [
+				li(a({href: '?'}, HOME_SVG)),
+				li(a({href: `?path=${parentPath(file)}`}, '..'))
+			]),
 			pre(getContent(file, true))
 		]
 	});
