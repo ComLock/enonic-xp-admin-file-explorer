@@ -21,7 +21,7 @@ import {
 	svg, symbol, path, use,
 	style,
 	build, clone, access, render
-} from 'render-js/src/class.es';
+} from 'render-js/lib/class';
 
 
 //──────────────────────────────────────────────────────────────────────────────

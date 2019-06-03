@@ -87,15 +87,35 @@ sourceSets {
 
 
 task webpack(type:NodeTask) {
+	dependsOn npmInstall
 	script = file('node_modules/webpack-cli/bin/cli.js')
 	args = [
 		'--color',
 		'--config', 'webpack.config.babel.js'
 	]
+	outputs.dir './build/resources/main' // processResources will delete the directory if this is not present
 }
-webpack.dependsOn npmInstall
-assemble.dependsOn webpack
-assemble.mustRunAfter webpack
+
+
+processResources {
+	dependsOn webpack
+	mustRunAfter webpack
+
+	exclude '**/.gitkeep'
+
+	// Let webpack handle these (rather than gradle)
+	exclude '**/*.css'
+	exclude '**/*.es'
+	//exclude '**/*.ico'
+	exclude '**/*.js'
+	exclude '**/*.jsx'
+	exclude '**/*.less'
+	exclude '**/*.sass'
+	exclude '**/*.scss'
+	//exclude '**/*.svg'
+	exclude '**/*.styl'
+	//exclude '**/*.xml'
+}
 
 
 task watch(type:NodeTask) {

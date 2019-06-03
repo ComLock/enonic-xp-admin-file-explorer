@@ -12,7 +12,7 @@ import {serviceUrl} from '/lib/xp/portal';
 //──────────────────────────────────────────────────────────────────────────────
 // Node modules (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import {clone, access, li, a} from 'render-js/src/class.es';
+import {clone, access, li, a} from 'render-js/lib/class';
 
 
 //──────────────────────────────────────────────────────────────────────────────

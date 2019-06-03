@@ -51,7 +51,8 @@ const SERVER_JS_CONFIG = {
 	context,
 	entry: SERVER_JS_ENTRY,
 	externals: [
-		/\/lib\/(enonic|openxp|router|xp)/
+		/^\//
+		// /\/lib\/(enonic|openxp|router|xp)/
 	],
 	devtool: false, // Don't waste time generating sourceMaps
 	mode: 'production',
@@ -66,12 +67,18 @@ const SERVER_JS_CONFIG = {
 					compact: false,
 					minified: false,
 					plugins: [
-						'array-includes',
-						'optimize-starts-with',
-						'transform-object-assign',
-						'transform-object-rest-spread'
+						'@babel/plugin-proposal-object-rest-spread',
+						'@babel/plugin-transform-object-assign',
+						'array-includes'
 					],
-					presets: ['es2015']
+					presets: [
+						[
+							'@babel/preset-env',
+							{
+								useBuiltIns: false // false means polyfill not required runtime
+							}
+						]
+					]
 				} // options
 			}] // use
 		}] // rules

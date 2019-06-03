@@ -4,7 +4,7 @@ import {getContent} from '/lib/openxp/file-system';
 //──────────────────────────────────────────────────────────────────────────────
 // Node modules (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import {ol, li, a, pre} from 'render-js/src/class.es';
+import {ol, li, a, pre} from 'render-js/lib/class';
 
 
 //──────────────────────────────────────────────────────────────────────────────

@@ -7,7 +7,7 @@ import {
 //──────────────────────────────────────────────────────────────────────────────
 // Node modules (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import {clone, addContent, h1, li, a, table, tr, th, td, pre} from 'render-js/src/class.es';
+import {clone, addContent, h1, li, a, table, tr, th, td, pre} from 'render-js/lib/class';
 
 //──────────────────────────────────────────────────────────────────────────────
 // Local libs (resolved and webpacked buildtime)

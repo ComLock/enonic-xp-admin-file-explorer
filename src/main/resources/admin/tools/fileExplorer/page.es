@@ -12,7 +12,7 @@ import {
 	doctype, html, head, title as titleEl, body, main, ol,
 	svg, symbol, path, use,
 	access, build, clone
-} from 'render-js/src/class.es';
+} from 'render-js/lib/class';
 
 
 const SVG_SYMBOLS = svg({

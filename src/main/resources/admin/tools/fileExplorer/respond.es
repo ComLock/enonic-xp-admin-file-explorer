@@ -7,7 +7,7 @@
 //──────────────────────────────────────────────────────────────────────────────
 // Node modules (resolved and webpacked buildtime)
 //──────────────────────────────────────────────────────────────────────────────
-import {style, access, render} from 'render-js/src/class.es';
+import {style, access, render} from 'render-js/lib/class';
 
 
 export default function respond(dom) {
