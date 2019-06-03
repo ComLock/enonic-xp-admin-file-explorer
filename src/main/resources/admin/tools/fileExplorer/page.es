@@ -2,6 +2,7 @@
 // Enonic Libs (in jar, resolved runtime)
 //──────────────────────────────────────────────────────────────────────────────
 //import {toStr} from '/lib/enonic/util';
+import {assetUrl} from '/lib/xp/portal';
 
 
 //──────────────────────────────────────────────────────────────────────────────
@@ -76,6 +77,9 @@ export default function page({
 } = {}) {
 	const dom = clone(DOM);
 	access(dom, 'html.head.title').addContent(title);
+	const href = assetUrl({path: '/favicon.ico'});
+	access(dom, 'html.head').addContent(`<link rel="shortcut icon" href="${href}" type="image/x-icon">
+	<link rel="icon" href="${href}" type="image/x-icon">`);
 	access(dom, 'html.body.main').addContent(content);
 	//log.info(toStr({dom}));
 	return dom;
