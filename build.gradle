@@ -11,8 +11,10 @@ repositories {
 	jcenter()
 	xp.enonicRepo()
 	maven {
+		url 'http://repo.enonic.com/public'
 		// url 'https://dl.bintray.com/openxp/public'
-		url 'https://openxp.jfrog.io/artifactory/public'
+		// url 'https://openxp.jfrog.io/artifactory/public'
+		url "https://oss.jfrog.org/artifactory/oss-release-local"
 	}
 }
 
@@ -65,8 +67,10 @@ dependencies {
 	//include 'com.enonic.lib:menu:1.3.3'
 	include 'com.enonic.lib:lib-util:2.0.0'
 
-	include 'openxp.lib:filesystem:0.9.6'
-	// include 'openxp.lib:filesystem:2.0.0-SNAPSHOT'
+	// include 'openxp.lib:filesystem:0.9.6'
+	// implementation 'openxp.lib:filesystem:0.9.6'
+	include 'openxp.lib:filesystem:2.0.0-SNAPSHOT'
+	// implementation group: 'openxp.lib', name: 'filesystem', version: '0.9.6'
 }
 
 
