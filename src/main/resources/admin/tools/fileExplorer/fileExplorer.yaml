@@ -1,0 +1,5 @@
+kind: "AdminTool"
+title: "File Explorer"
+description: "File Explorer"
+allow:
+  - "role:system.admin.login"

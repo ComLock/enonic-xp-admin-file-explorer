@@ -1,7 +1,6 @@
 //──────────────────────────────────────────────────────────────────────────────
 // Enonic Libs (in jar, resolved runtime)
 //──────────────────────────────────────────────────────────────────────────────
-//import {toStr} from '/lib/enonic/util';
 import {
 	dirsInDirectory,
 	filesInDirectory

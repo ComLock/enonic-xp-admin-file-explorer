@@ -1,4 +1,3 @@
-//import {toStr} from '/lib/enonic/util';
 import {
 	getContent,
 	readFile
